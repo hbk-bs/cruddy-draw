@@ -1,0 +1,90 @@
+* {
+  box-sizing: border-box;
+}
+html {
+  font-size: 18px;
+}
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100vh;
+  margin: 0;
+  font-family: Seravek, "Gill Sans Nova", Ubuntu, Calibri, "DejaVu Sans",
+    source-sans-pro, sans-serif;
+  font-weight: 500;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: 1.2rem;
+  margin: 10;
+}
+
+.container {
+  width: 400px;
+  margin: 0 auto;
+  height: 400px;
+}
+
+#grid-container {
+  display: grid;
+  grid-template-columns: repeat(20, 20px); /* Creates 40 columns */
+  grid-template-rows: repeat(20, 20px); /* Creates 40 rows */
+  gap: 0px; /* Optional: Adds a gap between cells */
+  width: 400px; /* Container width */
+  height: 400px; /* Container height */
+  overflow: hidden; /* Ensures the container does not grow */
+}
+
+.cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  cursor: pointer; /* Indicates the cell is clickable */
+}
+
+.non-selectable {
+  -webkit-user-select: none; /* Chrome, Safari, Opera */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE 10+ */
+  user-select: none; /* Standard syntax */
+}
+
+#infoButton {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  width: 25px;
+  height: 25px;
+  background-color: white;
+  color: black;
+  z-index: 999; /* Ensures the button is above other elements */
+}
+
+#infoPanel {
+  position: fixed;
+  top: 5px; /* Positioned below the button */
+  left: 5px;
+  width: 300px;
+  padding: 10px;
+  background-color: white;
+  border: 1px dotted black;
+  padding-left: 5px;
+  z-index: 2; /* Ensures the panel is above other elements */
+  p {
+    font-weight: 400;
+    font-size: 0.8rem;
+  }
+}
+
+#infoButton:hover ~ #infoPanel,
+#infoPanel:hover {
+  display: block; /* Show the panel when infoButton or infoPanel is hovered */
+}

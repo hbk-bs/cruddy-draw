@@ -1,0 +1,29 @@
+{
+  "tasks": {
+    "dev": "deno run --watch=index.html,index.js,style.css --allow-net --allow-read https://deno.land/std@0.145.0/http/file_server.ts",
+    "api": "IS_LOCAL=true deno run --unstable-kv --allow-read --allow-write --watch --allow-env --allow-net api.ts"
+  },
+  "compilerOptions": {
+    "allowJs": true,
+    "experimentalDecorators": false,
+    "jsx": "react",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "dom.asynciterable",
+      "deno.ns",
+      "deno.unstable"
+    ],
+    "strict": true
+  },
+
+  "ignore": ["index.js"],
+  "fmt": {
+    "useTabs": false,
+    "lineWidth": 80,
+    "indentWidth": 2,
+    "semiColons": true,
+    "singleQuote": false,
+    "proseWrap": "always"
+  }
+}
