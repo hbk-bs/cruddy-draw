@@ -220,6 +220,29 @@ document.addEventListener("DOMContentLoaded", () => {
             }
           });
       }
+    } else if (event.key === "n") {
+      location.href = SITE_URL.split("?")[0];
+      const container = document.getElementById("grid-container");
+      if (!container) {
+        throw new Error("No grid container found");
+      }
+      container.innerHTML = "";
+      populateGrid(container);
+    } else if (event.key === "d") {
+      if (sessionId) {
+        // should send a delete request to the api
+        fetch(`${API_URL}?id=${sessionId}`, {
+          method: "DELETE",
+        })
+          .then((response) => {
+            console.log("Success:", response.status);
+            location.href = SITE_URL.split("?")[0];
+          })
+
+          .catch((error) => {
+            console.error("Error:", error);
+          });
+      }
     }
   }
 
