@@ -7,7 +7,10 @@ import { blob } from "https://esm.town/v/std/blob";
 
 const headers = {
   "Content-Type": "application/json",
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "POST,GET,PUT,DELETE,OPTIONS",
 };
+const isDenoDeploy = Deno.env.get("DENO_DEPLOYMENT_ID") !== undefined;
 const IS_LOCAL = Deno.env.get("IS_LOCAL");
 interface DBRecord {
   id: string;
@@ -42,7 +45,7 @@ async function createDatabase(
   const generateId = uuid7.v7;
   if (isLocal) {
     // using deno kv https://docs.deno.com/deploy/kv/manual/
-    const kv = await Deno.openKv("./data/kv");
+    const kv = await Deno.openKv(isDenoDeploy ? undefined : "./data/kv");
     return {
       create: async (data) => {
         const id = generateId();
@@ -102,9 +105,17 @@ export default async function handler(req: Request) {
   const url = new URL(req.url);
   const params = new URLSearchParams(url.search);
   console.log("id is: ", params.get("id"));
-  const db = await createDatabase(IS_LOCAL ? true : false, "test");
+  const db = await createDatabase(
+    IS_LOCAL || isDenoDeploy ? true : false,
+    "test",
+  );
 
   switch (req.method) {
+    case "OPTIONS": {
+      return new Response("ok", {
+        headers,
+      });
+    }
     case "POST": {
       const json = await req.json();
       const record = await db.create(json);
@@ -172,6 +183,6 @@ export default async function handler(req: Request) {
   }
 }
 
-if (IS_LOCAL) {
+if (IS_LOCAL || isDenoDeploy) {
   Deno.serve(handler);
 }

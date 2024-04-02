@@ -11,8 +11,9 @@ function getRandomEmojiList() {
   return lists[Math.floor(Math.random() * lists.length)];
 }
 
-// const API_URL = "http://localhost:8000";
-const API_URL = "https://ff6347-cruddy_draw_api.web.val.run";
+// const API_URL = "http://localhost:8000"; // local development
+// const API_URL = "https://ff6347-cruddy_draw_api.web.val.run"; // running on val town easy UI but not that easy to deploy
+const API_URL = "https://hbk-bs-cruddy-draw.deno.dev"; // on deno deploy
 const SITE_URL = window.location.href;
 
 const emojiList = getRandomEmojiList(); // Add more emojis if needed
@@ -20,7 +21,7 @@ const emojiList = getRandomEmojiList(); // Add more emojis if needed
 let gridData = []; // To store the state of the grid for serialization
 
 /**
- * @param {unknown} target
+ * @param {HTMLDivElement} target
  */
 function updateEmoji(target) {
   if (!target.dataset.emoji) {
@@ -57,13 +58,21 @@ function createCell(emoji, id) {
   cell.dataset.emoji = emoji;
   cell.addEventListener("mousedown", function (e) {
     mouseDown = true;
-    updateEmoji(e.target);
+    if (!(e && e.currentTarget && e.currentTarget instanceof HTMLDivElement)) {
+      throw new Error("not a html div element");
+    }
+    updateEmoji(e.currentTarget);
   });
 
   // Mousemove event
   cell.addEventListener("mousemove", function (e) {
     if (mouseDown) {
-      updateEmoji(e.target);
+      if (
+        !(e && e.currentTarget && e.currentTarget instanceof HTMLDivElement)
+      ) {
+        throw new Error("not a html div element");
+      }
+      updateEmoji(e.currentTarget);
     }
   });
 
@@ -71,10 +80,12 @@ function createCell(emoji, id) {
   cell.addEventListener("mouseup", function () {
     mouseDown = false;
   });
-  // how can I get the index from the emojiList array?
-  // You can use the indexOf method to get the index of the emoji in the emojiList array
+
   // cell.addEventListener("click", function (e) {
-  //   updateEmoji(e.target);
+  // if (!(e && e.currentTarget && e.currentTarget instanceof HTMLDivElement)) {
+  //   throw new Error("not a html div element");
+  // }
+  //   updateEmoji(e.currentTarget);
   // });
   return cell;
 }

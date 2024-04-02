@@ -16,8 +16,9 @@
     ],
     "strict": true
   },
-
-  "ignore": ["index.js"],
+  "ignore": [
+    "index.js"
+  ],
   "fmt": {
     "useTabs": false,
     "lineWidth": 80,
@@ -25,5 +26,27 @@
     "semiColons": true,
     "singleQuote": false,
     "proseWrap": "always"
+  },
+  "deploy": {
+    "project": "ef2790cd-3efa-41ce-9507-6e2bb517da35",
+    "exclude": [
+      "index.js",
+      "index.html",
+      "style.css",
+      "deno.d.ts",
+      "dev_server.ts",
+      "favicon.svg",
+      "prettier.config.mjs",
+      "data",
+      "README.md",
+      "LICENSE",
+      "**/node_modules",
+      "**/node_modules",
+      "**/node_modules",
+      "**/node_modules",
+      "**/node_modules"
+    ],
+    "include": [],
+    "entrypoint": "api.ts"
   }
 }
