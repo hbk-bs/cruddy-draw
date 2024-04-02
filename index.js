@@ -114,6 +114,26 @@ function populateGrid(container) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+  const kvlink = document.querySelector("a#kv-store");
+  if (kvlink && kvlink instanceof HTMLAnchorElement) {
+    console.log(kvlink);
+    if (API_URL.includes("val.town")) {
+      kvlink.href = "https://val.town";
+      kvlink.innerText = "val.town";
+    } else if (API_URL.includes("deno.dev")) {
+      kvlink.href = "https://deno.dev";
+      kvlink.innerText = "deno.dev";
+    } else if (API_URL.includes("localhost")) {
+      kvlink.href = "http://localhost:8000";
+      kvlink.innerText = "localhost (we are in dev)";
+    } else {
+      kvlink.href = "#";
+      kvlink.innerText = "???";
+    }
+  } else {
+    console.log("No kvlink found");
+  }
+
   /** @type {string} */
   let sessionId;
   const container = document.getElementById("grid-container");
@@ -127,7 +147,7 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log("No id provided");
     populateGrid(container);
   } else {
-    // if there is an id we make a fetch GET call to the api to get the sdtored gridData
+    // if there is an id we make a fetch GET call to the api to get the stored gridData
     sessionId = id;
     fetch(`${API_URL}?id=${sessionId}`, {
       // headers: {
@@ -182,10 +202,6 @@ document.addEventListener("DOMContentLoaded", () => {
             console.log("Success:", data);
           });
       } else {
-        // Serialize the grid data to JSON
-
-        // console.log(serializedData);
-        // this should make a fetch POST request to a api to write the data
         fetch(`${API_URL}`, {
           method: "POST",
           // headers: {
